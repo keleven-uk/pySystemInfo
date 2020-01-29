@@ -5,6 +5,6 @@ Inspired by https://www.thepythoncode.com/article/get-hardware-system-informatio
 History
 -------
 
-V1.00   01 Oct. 2019   Basic program, All seems to be working.
-
+1.0.0   28 January 2020   Basic program, All seems to be working.
+1.1.0   28 January 2020   Added command arguments
 

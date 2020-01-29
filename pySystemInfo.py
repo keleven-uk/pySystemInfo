@@ -27,6 +27,8 @@
 
 import psutil
 import platform
+import textwrap
+import argparse
 from datetime import datetime
 from _version import __version__
 
@@ -140,14 +142,81 @@ def printNetworkInfo():
     # get IO statistics since boot
     netIO = psutil.net_io_counters()
     print()
-    print(f"Total Bytes Sent: {getSize(netIO.bytes_sent)}")
+    print(f"Total Bytes Sent    : {getSize(netIO.bytes_sent)}")
     print(f"Total Bytes Received: {getSize(netIO.bytes_recv)}")
+
+def printShortLicense():
+    print("""
+PySystemInfo {}   Copyright (C) 2019  Kevin Scott
+This program comes with ABSOLUTELY NO WARRANTY; for details type `PySystemInfo -l''.
+This is free software, and you are welcome to redistribute it under certain conditions.
+    """.format(__version__), flush=True)
+
+def printLongLicense():
+    print("""
+    Copyright (C) 2019  kevin Scott
+
+    This program is free software: you can redistribute it and/or modify it
+    under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program.  If not, see <http://www.gnu.org/licenses/>.
+    """, end="")
+
 
 
 if __name__ == "__main__":
-    printPlatfrom()
-    printBootTime()
-    printCPUInfo()
-    printMemoryInfo()
-    printDiskInfo()
-    printNetworkInfo()
+
+    parser = argparse.ArgumentParser(
+        formatter_class = argparse.RawTextHelpFormatter,
+        description=textwrap.dedent("""\
+        System and hardware Infomation from Python.
+        -----------------------
+        Prints a lot of stuff about the PC, System and PC."""),
+        epilog = " Kevin Scott (C) 2020")
+
+    parser.add_argument("-a", "--all",      action="store_true", help="Print All the Info.")
+    parser.add_argument("-p", "--platform", action="store_true", help="Print the Platform Info.")
+    parser.add_argument("-b", "--bootTime", action="store_true", help="Print the Boot Time.")
+    parser.add_argument("-c", "--cpu",      action="store_true", help="Print the CPU Info.")
+    parser.add_argument("-m", "--memory",   action="store_true", help="Print the Memory Info.")
+    parser.add_argument("-d", "--disk",     action="store_true", help="Print the Disk Info.")
+    parser.add_argument("-n", "--network",  action="store_true", help="Print the NetWork Info.")
+    parser.add_argument("-v", "--version",  action="version", version=f"%(prog)s {__version__}")
+    parser.add_argument("-l", "--license",  action="store_true", help="Print the Software License.")
+    args   = parser.parse_args()
+
+    if not any(vars(args).values()):
+        printShortLicense()
+        parser.print_help()
+
+    if args.license:
+        printLongLicense()
+        exit(0)
+
+    if args.platform or args.all:
+        printPlatfrom()
+
+    if args.bootTime or args.all:
+        printBootTime()
+
+    if args.cpu or args.all:
+        printCPUInfo()
+
+    if args.memory or args.all:
+        printMemoryInfo()
+
+    if args.disk or args.all:
+        printDiskInfo()
+
+    if args.network or args.all:
+        printNetworkInfo()
+
+
