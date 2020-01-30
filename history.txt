@@ -1,0 +1,19 @@
+
+V1.1.0
+
+commit 94441a0d0c8ff2f279f9f749bffa96f97e16fdba
+Author: keleven-uk <github@keleven.co.uk>
+Date:   Wed Jan 29 21:48:40 2020 +0000
+
+    Added command arguments.
+
+
+V1.0.0
+
+commit 0053ea63eaf4d94fdf78c7cc60bc46789cf7892d
+Author: keleven-uk <github@keleven.co.uk>
+Date:   Wed Jan 29 20:20:31 2020 +0000
+
+    Print Hardware and System Information in Python
+    
+    Inspired by https://www.thepythoncode.com/article/get-hardware-system-information-python
