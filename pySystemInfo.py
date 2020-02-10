@@ -1,7 +1,8 @@
 #################################################################################
 #  Print Hardware and System Information in Python                              #
 #                                                                               #
-#  https://www.thepythoncode.com/article/get-hardware-system-information-python #
+#  The information is gathered in systemInfo.py and imported                    #
+#                                                                               #
 #                                                                               #
 #  Kevin Scott (C) 2020                                                         #
 #                                                                               #
@@ -24,17 +25,17 @@
 #                                                                               #
 #################################################################################
 
-import re
 import sys
-import uuid
 import psutil
-import platform
 import textwrap
 import argparse
-import socket
+import systemInfo
 import pyinputplus as pyip
-from datetime import datetime
+
 from _version import __version__
+
+
+SI = systemInfo.SysInfo()
 
 
 def getSize(bytes, suffix="B"):
@@ -54,25 +55,22 @@ def printPlatfrom():
     """   Print Platform specific information.
     """
 
-    uname = platform.uname()
-    print(f"System      : {uname.system}")
-    print(f"Hostname    : {uname.node}")
-    print(f"Release     : {uname.release}")
-    print(f"Version     : {uname.version}")
-    print(f"Machine     : {uname.machine}")
-    print(f"Processor   : {uname.processor}")
-    print(f"Architecture: {platform.architecture()[0]}")
-    print(f"IP Address  : {socket.gethostbyname(socket.gethostname())}")
-    print(f"MAC address : {':'.join(re.findall('..', '%012x' % uuid.getnode()))}")
+    print(f"System      : {SI.System}")
+    print(f"Hostname    : {SI.Hostname}")
+    print(f"Release     : {SI.Release}")
+    print(f"Version     : {SI.Version}")
+    print(f"Machine     : {SI.Machine}")
+    print(f"Processor   : {SI.Processor}")
+    print(f"Architecture: {SI.Architecture}")
+    print(f"IP Address  : {SI.IPaddress}")
+    print(f"MAC address : {SI.MACaddress}")
 
 
 def printBootTime():
     """  Print Boot Time of the PC.
     """
 
-    bootTime = psutil.boot_time()
-    bt       = datetime.fromtimestamp(bootTime)
-    print(f"Boot Time: {bt.day:02}/{bt.month:02}/{bt.year:02} {bt.hour:02}:{bt.minute:02}:{bt.second:02}")
+    print(f"Boot Time: {SI.BootTime}")
 
 
 def printCPUInfo():
@@ -80,20 +78,19 @@ def printCPUInfo():
     """
 
     # number of cores
-    print(f"Physical cores   : {psutil.cpu_count(logical=False)}")
-    print(f"Total cores      : {psutil.cpu_count(logical=True)}")
+    print(f"Physical cores   : {SI.PhysicalCores}")
+    print(f"Total cores      : {SI.TotalCores}")
 
     #  CPU frequencies
-    cpuFreq = psutil.cpu_freq()
-    print(f"Max Frequency    : {cpuFreq.max:.2f}Mhz")
-    print(f"Min Frequency    : {cpuFreq.min:.2f}Mhz")
-    print(f"Current Frequency: {cpuFreq.current:.2f}Mhz")
+    print(f"Max Frequency    : {SI.MaxFrequency}")
+    print(f"Min Frequency    : {SI.MinFrequency}")
+    print(f"Current Frequency: {SI.CurrentFrequency}")
 
     #  CPU usage
     print("CPU Usage Per Core")
-    for i, percentage in enumerate(psutil.cpu_percent(percpu=True)):
+    for i, percentage in enumerate(SI.CPUusage):
         print(f"  Core {i}     : {percentage}%")
-    print(f"Total CPU Usage  : {psutil.cpu_percent()}%")
+    print(f"Total CPU Usage  : {SI.TotalCPUusage}")
 
 
 def printMemoryInfo():
@@ -101,18 +98,16 @@ def printMemoryInfo():
     """
 
     #  get the memory details
-    svmem = psutil.virtual_memory()
-    print(f"Total Memory     : {getSize(svmem.total)}")
-    print(f"Available Memory : {getSize(svmem.available)}")
-    print(f"Used Memory      : {getSize(svmem.used)}")
-    print(f"Percentage Memory: {svmem.percent}%")
+    print(f"Total Memory     : {SI.TotalMemory}")
+    print(f"Available Memory : {SI.AvailableMemory}")
+    print(f"Used Memory      : {SI.UsedMemory}")
+    print(f"Percentage Memory: {SI.PercentageMemory}")
 
     #  get the swap memory details (if exists)
-    swap = psutil.swap_memory()
-    print(f"Total Swap       : {getSize(swap.total)}")
-    print(f"Free Swap        : {getSize(swap.free)}")
-    print(f"Used Swap        : {getSize(swap.used)}")
-    print(f"Percentage Swap  : {swap.percent}%")
+    print(f"Total Swap       : {SI.TotalSwap}")
+    print(f"Free Swap        : {SI.AvailableSwap}")
+    print(f"Used Swap        : {SI.UsedSwap}")
+    print(f"Percentage Swap  : {SI.PercentageSwap}")
 
 
 def printDiskInfo():
@@ -135,8 +130,8 @@ def printDiskInfo():
         print(f"  Free            : {getSize(partition_usage.free)}")
         print(f"  Percentage      : {getSize(partition_usage.percent)}%")
 
-        #  getIO statistics since bootTime
-        diskIO = psutil.disk_io_counters()
+    #  getIO statistics since bootTime
+    diskIO = psutil.disk_io_counters()
     print()
     print(f"Total Read : {getSize(diskIO.read_bytes)}")
     print(f"Total Write: {getSize(diskIO.write_bytes)}")

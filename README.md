@@ -48,5 +48,6 @@ History
 1.0.0   27 January  2020  Basic program, All seems to be working.
 1.1.0   28 January  2020  Added command arguments
 1.2.0   28 January  2020  If no arguments are supplied, a menu is displayed.
-1.2.1   10 February 2010  Added IP Adress & MAC Address to Platform Info.
+1.2.1   10 February 2030  Added IP Adress & MAC Address to Platform Info.
+1.3.0   10 February 2030  Started to move the information gathering to a seperate class / file.
 

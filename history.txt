@@ -1,8 +1,14 @@
+V1.3.0
+
+    Started to move the information gatering to a seperate class / file [systemInfo.py].
+    The new class will gather all the information and return readable strings.
+    Moved Platform, Boot Time, CPU, Memory and Swap so far.
+
 V1.2.1
 
-commit b1cb11b56698ba3e50ac7b574b4da044ab86cc0e
+commit 98e9ceaecd1e1b29f61c86aec99c77a1c88247ca
 Author: keleven-uk <github@keleven.co.uk>
-Date:   Thu Jan 30 21:02:12 2020 +0000
+Date:   Mon Feb 10 20:39:34 2020 +0000
 
     Added IP Adress & MAC Address to Platform Info.
     Ameded boot time to display as two digits.
