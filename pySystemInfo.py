@@ -24,11 +24,14 @@
 #                                                                               #
 #################################################################################
 
+import re
 import sys
+import uuid
 import psutil
 import platform
 import textwrap
 import argparse
+import socket
 import pyinputplus as pyip
 from datetime import datetime
 from _version import __version__
@@ -52,12 +55,15 @@ def printPlatfrom():
     """
 
     uname = platform.uname()
-    print(f"System   : {uname.system}")
-    print(f"Node Name: {uname.node}")
-    print(f"Release  : {uname.release}")
-    print(f"Version  : {uname.version}")
-    print(f"Machine  : {uname.machine}")
-    print(f"Processor: {uname.processor}")
+    print(f"System      : {uname.system}")
+    print(f"Hostname    : {uname.node}")
+    print(f"Release     : {uname.release}")
+    print(f"Version     : {uname.version}")
+    print(f"Machine     : {uname.machine}")
+    print(f"Processor   : {uname.processor}")
+    print(f"Architecture: {platform.architecture()[0]}")
+    print(f"IP Address  : {socket.gethostbyname(socket.gethostname())}")
+    print(f"MAC address : {':'.join(re.findall('..', '%012x' % uuid.getnode()))}")
 
 
 def printBootTime():
@@ -66,7 +72,7 @@ def printBootTime():
 
     bootTime = psutil.boot_time()
     bt       = datetime.fromtimestamp(bootTime)
-    print(f"Boot Time: {bt.day}/{bt.month}/{bt.year} {bt.hour}:{bt.minute}:{bt.second}")
+    print(f"Boot Time: {bt.day:02}/{bt.month:02}/{bt.year:02} {bt.hour:02}:{bt.minute:02}:{bt.second:02}")
 
 
 def printCPUInfo():
@@ -171,7 +177,7 @@ This is free software, and you are welcome to redistribute it under certain cond
 
 def printLongLicense():
     print("""
-    Copyright (C) 2020  kevin Scott
+    Copyright (C) 2020  Kevin Scott
 
     This program is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by

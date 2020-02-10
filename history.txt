@@ -1,3 +1,23 @@
+V1.2.1
+
+commit b1cb11b56698ba3e50ac7b574b4da044ab86cc0e
+Author: keleven-uk <github@keleven.co.uk>
+Date:   Thu Jan 30 21:02:12 2020 +0000
+
+    Added IP Adress & MAC Address to Platform Info.
+    Ameded boot time to display as two digits.
+    Ran source through spell checker.
+
+
+V1.2.0
+
+commit b1cb11b56698ba3e50ac7b574b4da044ab86cc0e
+Author: keleven-uk <github@keleven.co.uk>
+Date:   Thu Jan 30 21:02:12 2020 +0000
+
+    If no arguments are supplied, a menu is displayed.
+    The menu is display using pyinputplus.
+
 
 V1.1.0
 
@@ -15,5 +35,5 @@ Author: keleven-uk <github@keleven.co.uk>
 Date:   Wed Jan 29 20:20:31 2020 +0000
 
     Print Hardware and System Information in Python
-    
+
     Inspired by https://www.thepythoncode.com/article/get-hardware-system-information-python

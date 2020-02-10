@@ -1,11 +1,11 @@
 Print Hardware and System Information in Python
 
-Inspired by https://www.thepythoncode.com/article/get-hardware-system-information-python 
+Inspired by https://www.thepythoncode.com/article/get-hardware-system-information-python
 
 
 usage: pySystemInfo.py [-h] [-a] [-p] [-b] [-c] [-m] [-d] [-n] [-v] [-l]
 
-System and hardware Infomation from Python.
+System and hardware Information from Python.
 -----------------------
 Prints a lot of stuff about the Platform, CPU and Network.
 
@@ -27,8 +27,8 @@ optional arguments:
 
 
 PySystemInfo 1.2.0   Copyright (C) 2020  Kevin Scott
-This program comes with ABSOLUTELY NO WARRANTY; for details type `PySystemInfo -l''.        
-This is free software, and you are welcome to redistribute it under certain conditions.     
+This program comes with ABSOLUTELY NO WARRANTY; for details type `PySystemInfo -l''.
+This is free software, and you are welcome to redistribute it under certain conditions.
 
 
 Please select one of the following:
@@ -45,7 +45,8 @@ Please select one of the following:
 History
 -------
 
-1.0.0   27 January 2020   Basic program, All seems to be working.
-1.1.0   28 January 2020   Added command arguments
-1.2.0   28 January 2020   If no arguments are supplied, a menu is displayed.
+1.0.0   27 January  2020  Basic program, All seems to be working.
+1.1.0   28 January  2020  Added command arguments
+1.2.0   28 January  2020  If no arguments are supplied, a menu is displayed.
+1.2.1   10 February 2010  Added IP Adress & MAC Address to Platform Info.
 
