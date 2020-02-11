@@ -1,14 +1,16 @@
+V1.3.1
+
+    Moved the remaining items across [Disk & Network].
+
+
 V1.3.0
 
     Started to move the information gatering to a seperate class / file [systemInfo.py].
     The new class will gather all the information and return readable strings.
     Moved Platform, Boot Time, CPU, Memory and Swap so far.
 
-V1.2.1
 
-commit 98e9ceaecd1e1b29f61c86aec99c77a1c88247ca
-Author: keleven-uk <github@keleven.co.uk>
-Date:   Mon Feb 10 20:39:34 2020 +0000
+V1.2.1
 
     Added IP Adress & MAC Address to Platform Info.
     Ameded boot time to display as two digits.
@@ -17,28 +19,16 @@ Date:   Mon Feb 10 20:39:34 2020 +0000
 
 V1.2.0
 
-commit b1cb11b56698ba3e50ac7b574b4da044ab86cc0e
-Author: keleven-uk <github@keleven.co.uk>
-Date:   Thu Jan 30 21:02:12 2020 +0000
-
     If no arguments are supplied, a menu is displayed.
     The menu is display using pyinputplus.
 
 
 V1.1.0
 
-commit 94441a0d0c8ff2f279f9f749bffa96f97e16fdba
-Author: keleven-uk <github@keleven.co.uk>
-Date:   Wed Jan 29 21:48:40 2020 +0000
-
     Added command arguments.
 
 
 V1.0.0
-
-commit 0053ea63eaf4d94fdf78c7cc60bc46789cf7892d
-Author: keleven-uk <github@keleven.co.uk>
-Date:   Wed Jan 29 20:20:31 2020 +0000
 
     Print Hardware and System Information in Python
 

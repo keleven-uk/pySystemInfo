@@ -8,6 +8,8 @@
 #                                                                               #
 #  NB : Needs psutil & pyinputplus, not in the Python Standard Library          #
 #                                                                               #
+#  See history.txt for version information.
+#                                                                               #
 #################################################################################
 #                                                                               #
 #    This program is free software: you can redistribute it and/or modify it    #
@@ -26,7 +28,6 @@
 #################################################################################
 
 import sys
-import psutil
 import textwrap
 import argparse
 import systemInfo
@@ -36,19 +37,6 @@ from _version import __version__
 
 
 SI = systemInfo.SysInfo()
-
-
-def getSize(bytes, suffix="B"):
-    """  Returns a human readable version of a size given in bytes.
-
-        1253656 => "1.20MB"
-        1253656678 => "1.17GB"
-    """
-    factor = 1024
-    for unit in ["", "K", "M", "G", "T", "P"]:
-        if bytes < factor:
-            return f"{bytes:.2f}{unit}{suffix}"
-        bytes /= factor
 
 
 def printPlatfrom():
@@ -115,26 +103,20 @@ def printDiskInfo():
     """
 
     #  get all disk partitions
-    partitions = psutil.disk_partitions()
-    for partition in partitions:
-        print(f"=========== Device: {partition.device} =========")
-        print(f"      Mountpoint  : {partition.mountpoint}")
-        print(f"  File System Type: {partition.fstype}")
-        try:
-            partition_usage = psutil.disk_usage(partition.mountpoint)
-        except PermissionError:
-            #  This can be caught due to disk that isn't ready
-            continue
-        print(f"  Total Size      : {getSize(partition_usage.total)}")
-        print(f"  Used            : {getSize(partition_usage.used)}")
-        print(f"  Free            : {getSize(partition_usage.free)}")
-        print(f"  Percentage      : {getSize(partition_usage.percent)}%")
+    disks = SI.DiskPartitions
+    for partition in disks:
+      print(f"=========== Device: {partition} =========")
+      print(f"  Mountpoint      : {disks[partition][0]}")
+      print(f"  File System Type: {disks[partition][1]}")
+      print(f"  Total Size      : {disks[partition][2]}")
+      print(f"  Used Space      : {disks[partition][3]}")
+      print(f"  Free Space      : {disks[partition][4]}")
+      print(f"  Percentage Used : {disks[partition][5]}")
 
     #  getIO statistics since bootTime
-    diskIO = psutil.disk_io_counters()
     print()
-    print(f"Total Read : {getSize(diskIO.read_bytes)}")
-    print(f"Total Write: {getSize(diskIO.write_bytes)}")
+    print(f"Total Read : {SI.DiskTotalRead}")
+    print(f"Total Write: {SI.DiskTotalWrite}")
 
 
 def printNetworkInfo():
@@ -142,24 +124,25 @@ def printNetworkInfo():
     """
 
     #  get all network interfaces (virtual and physical)
-    ifAddrs = psutil.net_if_addrs()
-    for interfaceName, interfaceAddresses in ifAddrs.items():
-        for address in interfaceAddresses:
-            print(f"=== Interface: {interfaceName} ===")
-            if str(address.family) == 'AddressFamily.AF_INET':
-                print(f"  IP Address   : {address.address}")
-                print(f"  Netmask      : {address.netmask}")
-                print(f"  Broadcast IP : {address.broadcast}")
-            elif str(address.family) == 'AddressFamily.AF_PACKET':
-                print(f"  MAC Address  : {address.address}")
-                print(f"  Netmask      : {address.netmask}")
-                print(f"  Broadcast MAC: {address.broadcast}")
+    nets = SI.Networks
 
-    # get IO statistics since boot
-    netIO = psutil.net_io_counters()
+    for net in nets:
+      if nets[net][1] == 'AddressFamily.AF_INET':
+        print(f"=== Interface: {nets[net][0]} ===")
+        print(f"Address Family : {nets[net][1]}")
+        print(f"  IP Address   : {nets[net][2]}")
+        print(f"  Netmask      : {nets[net][3]}")
+        print(f"  Broadcast IP : {nets[net][4]}")
+      elif nets[net][1] == 'AddressFamily.AF_PACKET':
+        print(f"=== Interface: {nets[net][0]} ===")
+        print(f"Address Family : {nets[net][1]}")
+        print(f"  MAC Address  : {nets[net][2]}")
+        print(f"  Netmask      : {nets[net][3]}")
+        print(f"  Broadcast MAC: {nets[net][4]}")
+
     print()
-    print(f"Total Bytes Sent    : {getSize(netIO.bytes_sent)}")
-    print(f"Total Bytes Received: {getSize(netIO.bytes_recv)}")
+    print(f"Total Bytes Sent    : {SI.TotalBytesSent}")
+    print(f"Total Bytes Received: {SI.TotalBytesReceived}")
 
 
 def printShortLicense():
@@ -196,7 +179,7 @@ def printSeperator(title):
 def printFromArgs(args):
     """  Print the specified information from the command line arguments.
     """
-    print("args")
+
     if args.platform or args.all:
         printSeperator("Platform Information")
         printPlatfrom()
@@ -285,7 +268,7 @@ if __name__ == "__main__":
     parser.add_argument("-l", "--license",  action="store_true", help="Print the Software License.")
     args = parser.parse_args()
 
-    if not any(vars(args).values()):  #  No command arguments given, run the menu.
+    if not any(vars(args).values()):  # No command arguments given, run the menu.
         printShortLicense()
         printFromMenu()
         sys.exit(0)
@@ -294,6 +277,5 @@ if __name__ == "__main__":
         printLongLicense()
         sys.exit(0)
 
-    printFromArgs(args)               #  Must be command line arguments, so process.
-
+    printFromArgs(args)               # Must be command line arguments, so process.
 

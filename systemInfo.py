@@ -25,7 +25,6 @@
 #################################################################################
 
 import re
-import sys
 import uuid
 import psutil
 import socket
@@ -38,7 +37,7 @@ class SysInfo:
 
   Returned information
 
-  Platform
+  Platform [All returned as Strings]
       System           : Name of the OS i.e. Windows.
       HostName         : Name of the host PC.
       Release          : Release version of the OS [Major number].
@@ -51,27 +50,50 @@ class SysInfo:
 
       BootTime         : The time of the last time the PC was booted.
 
-    CPU
+    CPU [All returned as Strings]
       PhysicalCores    : The number of physical cores of the CPU.
       TotalCores       : The number of Total cores of the CPU.
       MaxFrequency     : The maximum frequency of the CPU [in Mhz].
       MinFrequency     : The minimum frequency of the CPU [in Mhz].
       CurrentFrequency : The current frequency of the CPU [in Mhz].
-      CPUusage         : A list containing the usage for each individual core [in %].
+      CPUusage         : A *list* containing the usage for each individual core [in %].
       TotalCPUusage    : The current overall usage of the CPU [in %].
 
-    Memory
+    Memory [All returned as Strings]
       TotalMemory      : Total Memory installed in the host PC [in suitable format].
       AvailableMemory  : Total available [un-used] memory in host PC [in suitable format].
       UsedMemory       : Total used memory in host PC [in suitable format].
       PercentageMemory : Percentage of used memory [in %].
-    Swap
+    Swap [All returned as Strings]
       TotalSwap        : Total Swap Memory installed in the host PC [in suitable format].
       AvailableSwap    : Total available [un-used] Swap Memory in host PC [in suitable format].
       UsedSwap         : Total used Swap Memory in host PC [in suitable format].
       PercentageSwap   : Percentage of used Swap Memory [in %].
-    Swap
+
+    Disk [Returned as a Dictionary]
+      key  [string]          : Device name..
+      data [list of strings] : Mountpoint
+                             : File System Type
+                             : Total Size
+                             : Used Space
+                             : Free Space
+                             : Percentage used
+
+      DiskTotalRead  [string]: Total read from all disks since boot time.
+      DiskTotalWrite [string]: Total written to all disks since boot time.
+
+    Networks [Returned as a Dictionary]
+      key                    : unique integer ID
+      data [list of strings] : Interface Name
+                             : Family
+                             : IP Address or MAC Address
+                             : Netmask
+                             : Broadcast IP
+
+        TotalBytesReceived [string]: Total Bytes Resieved over network since boot time.
+        TotalBytesSent [string]    : Total Bytes Sent over network since boot time.
   """
+
 
   def getSize(self, bytes, suffix="B"):
     """  Returns a human readable format of a size given in bytes.
@@ -158,7 +180,8 @@ class SysInfo:
   #  CPU usage
   @property
   def CPUusage(self):
-    p = []
+    p = []           #  create empty list.
+
     for i, percentage in enumerate(psutil.cpu_percent(percpu=True)):
         p.append(percentage)
     return p
@@ -206,4 +229,73 @@ class SysInfo:
     return f"{self.swap.percent}%"
 
 
+  #  get all disk partitions
+  partitions = psutil.disk_partitions()
 
+  @property
+  def DiskPartitions(self):
+    p = {}           #  Create empty dictionary
+
+    for partition in self.partitions:
+      l = []           #  create empty list.
+      try:
+          partition_usage = psutil.disk_usage(partition.mountpoint)
+      except PermissionError:
+          #  This can be caught due to disk that isn't ready
+          print("continue")
+          continue
+      l.append(partition.mountpoint)
+      l.append(partition.fstype)
+      l.append(self.getSize(partition_usage.total))
+      l.append(self.getSize(partition_usage.used))
+      l.append(self.getSize(partition_usage.free))
+      l.append(f"{self.getSize(partition_usage.percent)}%")
+
+      p[partition.device] = l
+    return p
+
+  #  getIO statistics since bootTime
+  diskIO = psutil.disk_io_counters()
+
+  @property
+  def DiskTotalRead(self):
+    return self.getSize(self.diskIO.read_bytes)
+
+  @property
+  def DiskTotalWrite(self):
+    return self.getSize(self.diskIO.write_bytes)
+
+  #  get all network interfaces (virtual and physical)
+  ifAddrs = psutil.net_if_addrs()
+
+  @property
+  def Networks(self):
+    p = {}           #  Create empty dictionary
+    n = 0
+
+    for interfaceName, interfaceAddresses in self.ifAddrs.items():
+      for address in interfaceAddresses:
+        l = []           #  create empty list.
+
+        l.append(interfaceName)
+        l.append(str(address.family))
+
+        l.append(address.address)
+        l.append(address.netmask)
+        l.append(address.broadcast)
+
+        p[n] = l
+        n += 1
+
+    return p
+
+  # get IO statistics since boot
+  netIO = psutil.net_io_counters()
+
+  @property
+  def TotalBytesSent(self):
+    return self.getSize(self.netIO.bytes_sent)
+
+  @property
+  def TotalBytesReceived(self):
+    return self.getSize(self.netIO.bytes_recv)
