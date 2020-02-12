@@ -145,6 +145,18 @@ def printNetworkInfo():
     print(f"Total Bytes Received: {SI.TotalBytesReceived}")
 
 
+def printPythonInfo():
+    """  Print Python Compiler Information.
+    """
+    
+    print(f"Python Build            : {SI.PythonBuild}")
+    print(f"Python Compiler         : {SI.PythonCompiler}")
+    print(f"Python Branch           : {SI.PythonBranch}")
+    print(f"Python Implementation   : {SI.PythonImplementation}")
+    print(f"Python Revision         : {SI.PythonRevision}")
+    print(f"Python Version          : {SI.PythonVersion}")
+    
+    
 def printShortLicense():
     print(f"""
 PySystemInfo {__version__}   Copyright (C) 2020  Kevin Scott
@@ -203,7 +215,10 @@ def printFromArgs(args):
     if args.network or args.all:
         printSeperator("Network Information")
         printNetworkInfo()
-
+        
+    if args.python or args.all:
+        printSeperator("Python Information")
+        printPythonInfo()
 
 def printFromMenu():
     """  Print the specified information from the menu option chosen.
@@ -213,7 +228,7 @@ def printFromMenu():
         print()
         responce = pyip.inputMenu(["Platform", "Boot Time",
                                    "CPU", "Memory", "Disk", "Network",
-                                   "All", "Quit"], numbered=True)
+                                   "Python", "All", "Quit"], numbered=True)
 
         if responce == "Platform" or responce == "All":
             printSeperator("Platform Information")
@@ -238,6 +253,10 @@ def printFromMenu():
         if responce == "Network" or responce == "All":
             printSeperator("Network Information")
             printNetworkInfo()
+            
+        if responce == "Python" or responce == "All":
+            printSeperator("Python Information")
+            printPythonInfo()
 
         if responce == "Quit":
             break
@@ -264,6 +283,7 @@ if __name__ == "__main__":
     parser.add_argument("-m", "--memory",   action="store_true", help="Print the Memory Info.")
     parser.add_argument("-d", "--disk",     action="store_true", help="Print the Disk Info.")
     parser.add_argument("-n", "--network",  action="store_true", help="Print the NetWork Info.")
+    parser.add_argument("-py", "--python",  action="store_true", help="Print the Python Info.")
     parser.add_argument("-v", "--version",  action="version",    version=f"%(prog)s {__version__}")
     parser.add_argument("-l", "--license",  action="store_true", help="Print the Software License.")
     args = parser.parse_args()
