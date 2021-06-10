@@ -4,11 +4,12 @@
 #  The information is gathered in systemInfo.py and imported                    #
 #                                                                               #
 #                                                                               #
-#  Kevin Scott (C) 2020                                                         #
+#  Kevin Scott (C) 2020-2021                                                    #
 #                                                                               #
-#  NB : Needs psutil & pyinputplus, not in the Python Standard Library          #
+#  NB : Needs psutil & pyinputplus, not in the Python Standard Library.         #
+#       run py -m pip install -r requirements.txt from a virtual environment.   #
 #                                                                               #
-#  See history.txt for version information.
+#  See history.txt for version information.                                     #
 #                                                                               #
 #################################################################################
 #                                                                               #
@@ -159,7 +160,7 @@ def printPythonInfo():
     
 def printShortLicense():
     print(f"""
-PySystemInfo {__version__}   Copyright (C) 2020  Kevin Scott
+PySystemInfo {__version__}   Copyright (C) 2020-2021  Kevin Scott
 This program comes with ABSOLUTELY NO WARRANTY; for details type `PySystemInfo -l''.
 This is free software, and you are welcome to redistribute it under certain conditions.
     """, flush=True)
@@ -167,7 +168,7 @@ This is free software, and you are welcome to redistribute it under certain cond
 
 def printLongLicense():
     print("""
-    Copyright (C) 2020  Kevin Scott
+    Copyright (C) 2020-2021  Kevin Scott
 
     This program is free software: you can redistribute it and/or modify it
     under the terms of the GNU General Public License as published by
@@ -274,7 +275,7 @@ if __name__ == "__main__":
         Prints a lot of stuff about the Platform, CPU and Network."""),
         epilog = """ If no arguments are given, a Menu will be displayed.
 
-        Kevin Scott (C) 2020""")
+        Kevin Scott (C) 2020-2021""")
 
     parser.add_argument("-a", "--all",      action="store_true", help="Print All the Info.")
     parser.add_argument("-p", "--platform", action="store_true", help="Print the Platform Info.")

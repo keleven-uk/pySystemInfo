@@ -3,7 +3,7 @@
 #                                                                               #
 #  https://www.thepythoncode.com/article/get-hardware-system-information-python #
 #                                                                               #
-#  Kevin Scott (C) 2020                                                         #
+#  Kevin Scott (C) 2020-2021                                                    #
 #                                                                               #
 #  NB : Needs psutil & pyinputplus, not in the Python Standard Library          #
 #                                                                               #

@@ -1,40 +1,47 @@
-V1.3.2
+V2021.7
+
+    Changed format of version number - now is year.build number. [first] 7 digit git commit ID.
+    Added requirements.txt.
+    Added 2021 to Copyright notice.
+    
+    
+V2020.6.1664f95
 
     Added Python Information, just a wrapper for the values given from the Python module Platform.
     Changed all the two spaces to four space in systemInfo.py
     
     
-V1.3.1
+V2020.5.4319a8e
 
     Moved the remaining items across [Disk & Network].
 
 
-V1.3.0
+V2020.5.7009ce4
 
     Started to move the information gathering to a separate class / file [systemInfo.py].
     The new class will gather all the information and return readable strings.
     Moved Platform, Boot Time, CPU, Memory and Swap so far.
 
 
-V1.2.1
+V2020.4.98e9cea
 
     Added IP Adress & MAC Address to Platform Info.
     Amended boot time to display as two digits.
     Ran source through spell checker.
 
 
-V1.2.0
+V2020.3.b1cb11b
 
     If no arguments are supplied, a menu is displayed.
     The menu is display using pyinputplus.
 
 
-V1.1.0
+V2020.2.94441a0
 
     Added command arguments.
 
 
-V1.0.0
+V2020.1.0053ea6
 
     Print Hardware and System Information in Python
 
