@@ -1,8 +1,9 @@
-V2021.7
+V2021.7.a5614f3
 
     Changed format of version number - now is year.build number. [first] 7 digit git commit ID.
     Added requirements.txt.
     Added 2021 to Copyright notice.
+    Tested on Python 3.9.5.
     
     
 V2020.6.1664f95

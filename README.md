@@ -24,10 +24,10 @@ optional arguments:
 
  If no arguments are given, a Menu will be displayed.
 
-        Kevin Scott (C) 2020
+        Kevin Scott (C) 2020-2021
 
 
-PySystemInfo 1.3.2   Copyright (C) 2020  Kevin Scott
+PySystemInfo V2021.7.a5614f3   Copyright (C) 2020-2021  Kevin Scott
 This program comes with ABSOLUTELY NO WARRANTY; for details type `PySystemInfo -l''.    
 This is free software, and you are welcome to redistribute it under certain conditions. 
 
@@ -47,12 +47,6 @@ Please select one of the following:
 History
 -------
 
-1.0.0   27 January  2020  Basic program, All seems to be working.
-1.1.0   28 January  2020  Added command arguments
-1.2.0   28 January  2020  If no arguments are supplied, a menu is displayed.
-1.2.1   10 February 2020  Added IP Adress & MAC Address to Platform Info.
-1.3.0   10 February 2020  Started to move the information gathering to a seperate class / file.
-1.3.1   11 February 2020  Moved the remaining items across [Disk & Network].
-1.3.2   12 February 2020  Added Python Information, just a wrapper for the values given from the Python module Platform.
+See history.txt
 
 
